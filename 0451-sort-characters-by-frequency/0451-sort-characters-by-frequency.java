@@ -9,19 +9,26 @@ class Solution {
             hm.put(c,hm.getOrDefault(c,0) +1);
         }
 
-        List<Character> list = new ArrayList<>(hm.keySet());
-        Collections.sort(list, (a,b) -> hm.get(b) - hm.get(a));
+        int maxFreq = Collections.max(hm.values());
 
-        StringBuilder sb = new StringBuilder();
-        for(char c : list){
-            int copies = hm.get(c);
-            for(int i=0;i<copies;i++){
-                sb.append(c);
-            }
+        List<List<Character>> buckets = new ArrayList<>();
+        for(int i=0;i<=maxFreq ;i++){
+            buckets.add(new ArrayList<>());
         }
 
-        return sb.toString();
-        //this is test
+        for(Character key : hm.keySet()){
+            int freq = hm.get(key);
+            buckets.get(freq).add(key);
+        }
 
+        StringBuilder sb = new StringBuilder();
+        for(int i = buckets.size()-1;i>=1;i--){
+            for(Character c : buckets.get(i)){
+                for(int j =0;j<i;j++){
+                    sb.append(c);
+                }
+            }
+        }
+        return sb.toString();
     }
 }
